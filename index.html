@@ -1,0 +1,781 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Sinzo Café — Ultra Glass Menu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- تم تغيير الخط إلى Tajawal وتكبير الأوزان -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Tajawal:wght@400;500;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #d35400;
+        --secondary-color: #e67e22;
+        --bg-color: #fcf9f2;
+        --text-main: #3e2723;
+        --text-muted: #795548;
+
+        /* ULTRA Glassmorphism Variables */
+        --glass-bg: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.7),
+          rgba(255, 255, 255, 0.2)
+        );
+        --glass-border-top: rgba(255, 255, 255, 1);
+        --glass-border-right: rgba(255, 255, 255, 0.3);
+        --glass-shadow: 0 12px 35px rgba(62, 39, 35, 0.08);
+        --glass-inner: inset 0 2px 10px rgba(255, 255, 255, 0.7);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        /* تم تغيير الخط الأساسي وتكبير الحجم */
+        font-family: "Tajawal", sans-serif;
+        font-size: 1.1rem;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        line-height: 1.6;
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* ---------- ANIMATED LIGHT BACKGROUND ---------- */
+      .bg-animation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        overflow: hidden;
+        background: #fcf9f2;
+      }
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(85px);
+        opacity: 0.5;
+        animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .blob-1 {
+        width: 350px;
+        height: 350px;
+        background: #fad390;
+        top: -50px;
+        right: -50px;
+      }
+      .blob-2 {
+        width: 400px;
+        height: 400px;
+        background: #f8c291;
+        bottom: -100px;
+        left: -100px;
+        animation-delay: -5s;
+      }
+      .blob-3 {
+        width: 300px;
+        height: 300px;
+        background: #eccc68;
+        top: 40%;
+        left: 60%;
+        animation-delay: -10s;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(-40px, 60px) scale(1.1);
+        }
+        100% {
+          transform: translate(60px, -40px) scale(0.9);
+        }
+      }
+
+      /* ---------- HEADER ---------- */
+      .hero {
+        padding: 45px 20px 25px;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+      }
+
+      .hero-logo {
+        width: 85px;
+        height: 85px;
+        margin: 0 auto 15px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Playfair Display", serif;
+        font-size: 42px;
+        font-weight: 900;
+        color: #fff;
+        box-shadow:
+          0 10px 25px rgba(211, 84, 0, 0.3),
+          inset 0 -4px 10px rgba(0, 0, 0, 0.15);
+        position: relative;
+      }
+      .hero-logo::after {
+        content: "";
+        position: absolute;
+        inset: -5px;
+        border-radius: 50%;
+        border: 2px solid rgba(211, 84, 0, 0.3);
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1.15);
+          opacity: 0;
+        }
+      }
+
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.8rem; /* تم التكبير */
+        letter-spacing: 2px;
+        background: linear-gradient(
+          135deg,
+          var(--text-main),
+          var(--primary-color)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 2px;
+        text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.8);
+      }
+
+      .hero h2 {
+        font-size: 1.5rem; /* تم التكبير */
+        font-weight: 800;
+        color: var(--text-muted);
+      }
+
+      /* ---------- APP CONTAINER & VIEWS ---------- */
+      .app-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px 40px;
+        position: relative;
+        z-index: 10;
+      }
+
+      .view {
+        display: none;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .view.active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ---------- SEARCH BAR ---------- */
+      .search-container {
+        margin-bottom: 25px;
+      }
+      #search-input {
+        width: 100%;
+        padding: 18px 25px;
+        font-family: inherit;
+        font-size: 1.2rem; /* خط بحث أكبر */
+        font-weight: 700;
+        color: var(--text-main);
+        outline: none;
+        transition: all 0.3s ease;
+      }
+      #search-input::placeholder {
+        color: var(--text-muted);
+        opacity: 0.7;
+        font-weight: 500;
+      }
+      #search-input:focus {
+        box-shadow:
+          0 15px 35px rgba(211, 84, 0, 0.15),
+          var(--glass-inner);
+        transform: translateY(-2px);
+      }
+
+      /* ---------- GLASS BASE CLASSES ---------- */
+      .glass-panel {
+        background: var(--glass-bg);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border-radius: 24px;
+        border: none;
+        border-top: 1.5px solid var(--glass-border-top);
+        border-left: 1.5px solid var(--glass-border-top);
+        border-right: 1px solid var(--glass-border-right);
+        border-bottom: 1px solid var(--glass-border-right);
+        box-shadow: var(--glass-shadow), var(--glass-inner);
+      }
+
+      /* ---------- CATEGORIES GRID (HOME VIEW) ---------- */
+      .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+        gap: 16px;
+      }
+
+      .category-box {
+        padding: 24px 15px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .category-box::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+          to right,
+          transparent,
+          rgba(255, 255, 255, 0.9),
+          transparent
+        );
+        transform: skewX(-25deg);
+        transition: 0.5s;
+      }
+
+      .category-box:active {
+        transform: scale(0.94);
+      }
+      .category-box:hover {
+        transform: translateY(-8px);
+        box-shadow:
+          0 20px 40px rgba(211, 84, 0, 0.15),
+          var(--glass-inner);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.9),
+          rgba(255, 255, 255, 0.4)
+        );
+      }
+      .category-box:hover::before {
+        left: 150%;
+      }
+
+      .cat-icon {
+        font-size: 44px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        filter: drop-shadow(0 5px 8px rgba(62, 39, 35, 0.15));
+        transition: transform 0.3s ease;
+      }
+      .category-box:hover .cat-icon {
+        transform: scale(1.1) rotate(5deg);
+      }
+
+      .cat-name {
+        font-weight: 800;
+        font-size: 1.3rem; /* تم التكبير */
+        color: var(--text-main);
+      }
+
+      /* ---------- SINGLE CATEGORY VIEW ---------- */
+      .sticky-header {
+        position: sticky;
+        top: 15px;
+        padding: 15px 20px;
+        margin-bottom: 25px;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .back-btn {
+        background: #fff;
+        color: var(--text-main);
+        border: none;
+        padding: 8px 18px;
+        border-radius: 30px;
+        font-family: inherit;
+        font-weight: 800;
+        font-size: 1.1rem; /* تم التكبير */
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+      .back-btn:hover,
+      .back-btn:active {
+        background: var(--primary-color);
+        color: #fff;
+        transform: translateX(5px);
+      }
+
+      .current-cat-title {
+        font-size: 1.3rem; /* تم التكبير */
+        font-weight: 900;
+        color: var(--text-main);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .current-cat-title svg {
+        width: 32px;
+        height: 32px;
+      }
+
+      .items-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      /* ---------- ITEM CARDS ---------- */
+      .item-card {
+        border-radius: 20px;
+        padding: 18px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        animation: slideUpFade 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease;
+      }
+
+      .item-card:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.95),
+          rgba(255, 255, 255, 0.6)
+        );
+        transform: scale(1.02) translateY(0);
+      }
+
+      .item-name {
+        font-size: 1.3rem; /* تم التكبير */
+        font-weight: 800;
+        color: var(--text-main);
+      }
+
+      .item-price {
+        background: linear-gradient(
+          135deg,
+          var(--secondary-color),
+          var(--primary-color)
+        );
+        color: #fff;
+        padding: 8px 20px;
+        border-radius: 30px;
+        font-weight: 900;
+        font-size: 1.2rem; /* تم التكبير */
+        box-shadow: 0 5px 15px rgba(211, 84, 0, 0.25);
+        white-space: nowrap;
+      }
+      .item-price span {
+        font-size: 0.85rem; /* تم التكبير */
+        opacity: 0.95;
+        margin-right: 4px;
+        font-weight: 700;
+      }
+
+      /* ---------- FOOTER ---------- */
+      footer {
+        text-align: center;
+        padding: 40px 20px;
+        position: relative;
+        z-index: 10;
+        margin-top: 40px;
+      }
+      footer p {
+        font-size: 1rem; /* تم التكبير */
+        color: var(--text-muted);
+        font-weight: 700;
+      }
+      footer .brand {
+        font-family: "Playfair Display", serif;
+        font-size: 1.6rem; /* تم التكبير */
+        color: var(--primary-color);
+        font-weight: 900;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+      }
+
+      /* ---------- KEYFRAMES ---------- */
+      @keyframes slideUpFade {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-animation">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+
+    <header class="hero">
+      <div class="hero-logo">S</div>
+      <h1>SINZO CAFÉ</h1>
+      <h2>كافيه سينزو</h2>
+    </header>
+
+    <div class="app-container">
+      <!-- Search Bar -->
+      <div id="search-wrapper" class="search-container">
+        <input
+          type="text"
+          id="search-input"
+          class="glass-panel"
+          placeholder="ابحث عن مشروب أو حلوى..."
+          oninput="handleSearch(this.value)"
+        />
+      </div>
+
+      <!-- Views -->
+      <div id="home-view" class="view active">
+        <div class="categories-grid" id="categories-grid"></div>
+      </div>
+
+      <div id="category-view" class="view">
+        <div class="sticky-header glass-panel">
+          <button class="back-btn" onclick="goHome()">
+            <span>&rarr;</span> رجوع
+          </button>
+          <div class="current-cat-title" id="current-cat-title"></div>
+        </div>
+        <div class="items-list" id="items-list"></div>
+      </div>
+
+      <div id="search-view" class="view">
+        <div class="items-list" id="search-results-list"></div>
+      </div>
+    </div>
+
+    <footer>
+      <p class="brand">Sinzo Café</p>
+      <p>نتمنى لكم تجربة لا تُنسى ♥️</p>
+    </footer>
+
+    <script>
+      // Complete Data List (تم اضافة v cola و شيشة اسكندراني)
+      const menuData = {
+        "القهوة (COFFEE)": [
+          { name: "قهوة تركي", price: "30 - 40" },
+          { name: "قهوة فرنساوي", price: "40 - 50" },
+          { name: "قهوة بندق", price: "50" },
+          { name: "قهوة فليفر", price: "55" },
+          { name: "نسكافيه فليفر", price: "50" },
+          { name: "نسكافيه حليب", price: "40" },
+          { name: "نسكافيه كلاسيك", price: "30" },
+          { name: "كوفي ميكس كلاسيك", price: "40" },
+          { name: "كوفي ميكس حليب", price: "30" },
+          { name: "هوت شوكليت", price: "60" },
+          { name: "امريكان كوفي", price: "60" },
+          { name: "كافيه لاتيه", price: "60" },
+          { name: "موكا", price: "70" },
+          { name: "كابتشينو", price: "65 - 75" },
+        ],
+        "اسبريسو (ESPRESSO)": [
+          { name: "اسبريسو", price: "40 - 60" },
+          { name: "اسبريسو ماكياتو", price: "50 - 60" },
+          { name: "اسبريسو افوجادو", price: "70" },
+          { name: "اسبريسو فليفر", price: "60" },
+        ],
+        "مشروبات ساخنة (HOT DRINKS)": [
+          { name: "شاي", price: "20" },
+          { name: "شاي فليفر", price: "25" },
+          { name: "شاي اخضر", price: "25" },
+          { name: "شاي براد", price: "60" },
+          { name: "شاي براد فليفر", price: "70" },
+          { name: "أعشاب ساخنة", price: "25" },
+          { name: "شاي سينزو", price: "40" },
+          { name: "شاي حليب", price: "40" },
+          { name: "شاي كرك", price: "60" },
+          { name: "مشروب مناعة", price: "45" },
+          { name: "قرفة جنزبيل بالعسل", price: "40" },
+          { name: "قرفة باللبن", price: "40" },
+          { name: "جنزبيل عسل", price: "35" },
+          { name: "هوت سيدر", price: "50" },
+          { name: "سحلب مكسرات", price: "60" },
+          { name: "سحلب فواكه", price: "70" },
+          { name: "سحلب اوريو", price: "75" },
+          { name: "سحلب نوتيلا", price: "75" },
+          { name: "ام علي مكسرات", price: "100" },
+          { name: "ام علي فواكه", price: "125" },
+          { name: "بليلة مكسرات", price: "75" },
+          { name: "بليلة نوتيلا", price: "100" },
+          { name: "حمص الشام", price: "50" },
+        ],
+        "قهوة مثلجة (ICED COFFEE)": [
+          { name: "ايس لاتيه - كوفي - موكا", price: "90" },
+          { name: "ايس امريكان - ماتشا", price: "90" },
+          { name: "فرابيتشينو (كراميل - بندق - فانيليا)", price: "90" },
+          { name: "فرابيتشينو سينزو", price: "100" },
+          { name: "فرابيتشينو شوكليت", price: "100" },
+          { name: "فرابيتشينو (لوتس - نوتيلا - براونيز)", price: "100" },
+        ],
+        "حلويات (DESSERT)": [
+          { name: "مولتن كيك كلاسيك", price: "120" },
+          { name: "مولتن كيك بالايس", price: "150" },
+          { name: "مولتن كيك ايس وقطع شيكولاتة", price: "180" },
+          { name: "قطعة جاتوه سينابون", price: "90" },
+          { name: "طبق سابليه", price: "75" },
+          { name: "كب كيك", price: "30" },
+          { name: "انجلش كيك", price: "20" },
+          { name: "ميني بان كيك", price: "20" },
+          { name: "قطعة سابليه - كوكيز - باتيه", price: "20" },
+        ],
+        "شيشة (SHISH)": [
+          { name: "شيشة ملوكي", price: "200" },
+          { name: "شيشة مكس 4 أطعمة", price: "175" },
+          { name: "شيشة سينزو", price: "150" },
+          { name: "شيشة دندش فواكه", price: "120" },
+          { name: "شيشة اسكندراني", price: "35" },
+          { name: "شيشة معسل", price: "20" },
+          { name: "ليّ طبي", price: "35" },
+          { name: "اضافة 4 مكعبات فحم", price: "15" },
+        ],
+        "ايس كريم (ICE CREAM)": [
+          { name: "بولة ايس كريم ", price: "30" },
+          { name: "  ايس كريم كلاسيك", price: "60" },
+          { name: "ايس كريم سينزو", price: "75" },
+          { name: "فروت سلط بالايس", price: "120" },
+          { name: "فروت سلط", price: "100" },
+        ],
+        "سموزي (SMOOTHIE)": [
+          { name: "ليمون نعناع", price: "60" },
+          { name: "بطيخ", price: "70" },
+          { name: "مانجو", price: "70" },
+          { name: "كيوي", price: "90" },
+          { name: "بلوبيري", price: "90" },
+          { name: "فراولة", price: "70" },
+          { name: "مانجو كيوي", price: "120" },
+        ],
+        "كوكتيل (COCKTAIL)": [
+          { name: "طبق فاكهة كبير", price: "200" },
+          { name: "طبق فاكهة وسط", price: "120" },
+          { name: "قنبلة الفواكه", price: "175" },
+          { name: "تروبيكال فروت", price: "120" },
+          { name: "فلوريدا", price: "80" },
+        ],
+        "ميلك شيك (MILK SHAKE)": [
+          { name: "فانيليا - شيكولاتة - كراميل", price: "100" },
+          { name: "مانجو - فراولة - موز", price: "100" },
+          { name: "لوتس - باشون - بلو بيري", price: "100" },
+          { name: "كيت كات - باونتي - كيندر", price: "120" },
+          { name: "سنيكرز - مارس - تويكس", price: "100" },
+          { name: "اوريو - بلو بيري - لوتس", price: "120" },
+          { name: "مالتيزرز", price: "130" },
+          { name: "لوتس", price: "130" },
+        ],
+        "عصائر فريش (FRESH JUICE)": [
+          { name: "مانجو - فراولة - جوافة", price: "60" },
+          { name: "رمان - اناناس - موز", price: "60" },
+          { name: "فراولة حليب - جوافة حليب", price: "65" },
+          { name: "بلح حليب - جوافة نعناع", price: "65" },
+          { name: "موز باللبن", price: "50" },
+          { name: "ليمون نعناع - ليمون", price: "50" },
+          { name: "برتقال - يوسفي - بطيخ", price: "50" },
+          { name: "بلح بالايس - كيوي", price: "80" },
+          { name: "مانجو و خوخ", price: "60 - 70" },
+          { name: "زبادي عسل - فواكه", price: "60-70" },
+          { name: "افوكادو عسل", price: "100" },
+          { name: "افوكادو كاجو", price: "150" },
+          { name: "بلوبيري - كريز - بلاك بيري", price: "80" },
+        ],
+        "مشروبات غازية (SOFT DRINKS)": [
+          { name: "سفن - كولا - ميرندا", price: "35" },
+          { name: "شويبس", price: "35" },
+          { name: "v cola", price: "35" },
+          { name: "بريل /سلايز ليمون ", price: "40 - 50" },
+          { name: "كولا اناناس - بلو بيري", price: "35" },
+          { name: "فيروز", price: "40" },
+          { name: "صن شاين", price: "60" },
+          { name: "تروبيكال اناناس - ليمون", price: "60" },
+          { name: "ريد بول فليفر", price: "120" },
+          { name: "مونستير", price: "120" },
+          { name: "مياه معدنية صغيرة", price: "15" },
+        ],
+      };
+
+      // Category Icons Matching New Names
+      const categoryIcons = {
+        "القهوة (COFFEE)": "☕",
+        "اسبريسو (ESPRESSO)": "⚡",
+        "مشروبات ساخنة (HOT DRINKS)": "🍵",
+        "قهوة مثلجة (ICED COFFEE)": `<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8l1.5 13c.1.5.5.9 1 .9h7c.5 0 .9-.4 1-.9L18 8H6z" fill="#D4A373" stroke="#4E342E" stroke-width="1.2"/><rect x="4" y="5" width="16" height="3" rx="1" fill="#FAFAFA" stroke="#4E342E" stroke-width="1.2"/><path d="M15 2l-1.5 3" stroke="#D32F2F" stroke-width="2" stroke-linecap="round"/><rect x="8" y="11" width="3" height="3" rx="0.5" fill="#FFF" opacity="0.8"/><rect x="13" y="15" width="3" height="3" rx="0.5" fill="#FFF" opacity="0.8"/><rect x="9" y="17" width="2.5" height="2.5" rx="0.5" fill="#FFF" opacity="0.8"/></svg>`,
+        "حلويات (DESSERT)": "🍰",
+        "شيشة (SHISH)": "💨",
+        "ايس كريم (ICE CREAM)": "🍦",
+        "سموزي (SMOOTHIE)": "🥤",
+        "كوكتيل (COCKTAIL)": "🍹",
+        "ميلك شيك (MILK SHAKE)": "🥛",
+        "عصائر فريش (FRESH JUICE)": "🍊",
+        "مشروبات غازية (SOFT DRINKS)": `<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6.5" y="4" width="11" height="17" rx="2" fill="#1976D2" stroke="#4E342E" stroke-width="1.2"/><path d="M6.5 7h11M6.5 18h11" stroke="#4E342E" stroke-width="1.2"/><ellipse cx="12" cy="4" rx="5.5" ry="1.5" fill="#CFD8DC" stroke="#4E342E" stroke-width="1.2"/><circle cx="12" cy="12.5" r="3" fill="#D32F2F"/><path d="M10.5 12.5c0-.8.7-1.5 1.5-1.5s1.5.7 1.5 1.5" stroke="#FFF" stroke-width="1"/></svg>`,
+      };
+
+      // DOM Elements
+      const homeView = document.getElementById("home-view");
+      const categoryView = document.getElementById("category-view");
+      const searchView = document.getElementById("search-view");
+      const categoriesGrid = document.getElementById("categories-grid");
+      const itemsList = document.getElementById("items-list");
+      const searchResultsList = document.getElementById("search-results-list");
+      const currentCatTitle = document.getElementById("current-cat-title");
+      const searchWrapper = document.getElementById("search-wrapper");
+      const searchInput = document.getElementById("search-input");
+
+      function initApp() {
+        Object.keys(menuData).forEach((cat, index) => {
+          const box = document.createElement("div");
+          box.className = "category-box glass-panel";
+          box.style.animation = `slideUpFade 0.6s ease forwards ${index * 0.05}s`;
+          box.style.opacity = "0";
+
+          box.onclick = () => openCategory(cat);
+          box.innerHTML = `
+            <div class="cat-icon">${categoryIcons[cat] || "✦"}</div>
+            <div class="cat-name">${cat}</div>
+          `;
+          categoriesGrid.appendChild(box);
+        });
+      }
+
+      function openCategory(catName) {
+        searchWrapper.style.display = "none"; // Hide search when in category
+        homeView.style.display = "none";
+        homeView.classList.remove("active");
+
+        categoryView.style.display = "block";
+        setTimeout(() => categoryView.classList.add("active"), 50);
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        currentCatTitle.innerHTML = `${categoryIcons[catName] || "✦"} <span style="font-size:1.1rem;">${catName}</span>`;
+        itemsList.innerHTML = "";
+
+        menuData[catName].forEach((item, index) => {
+          const card = document.createElement("div");
+          card.className = "item-card glass-panel";
+          card.style.animationDelay = `${index * 0.04}s`;
+          card.innerHTML = `
+            <div class="item-name">${item.name}</div>
+            <div class="item-price">${item.price} <span>ج.م</span></div>
+          `;
+          itemsList.appendChild(card);
+        });
+      }
+
+      function goHome() {
+        categoryView.classList.remove("active");
+        searchView.classList.remove("active");
+
+        setTimeout(() => {
+          categoryView.style.display = "none";
+          searchView.style.display = "none";
+
+          searchWrapper.style.display = "block"; // Show search bar again
+          searchInput.value = ""; // Clear search text
+
+          homeView.style.display = "block";
+          setTimeout(() => homeView.classList.add("active"), 50);
+        }, 300);
+      }
+
+      function handleSearch(query) {
+        const q = query.trim().toLowerCase();
+
+        if (q === "") {
+          searchView.classList.remove("active");
+          setTimeout(() => {
+            searchView.style.display = "none";
+            homeView.style.display = "block";
+            setTimeout(() => homeView.classList.add("active"), 50);
+          }, 200);
+          return;
+        }
+
+        homeView.classList.remove("active");
+        categoryView.classList.remove("active");
+        homeView.style.display = "none";
+        categoryView.style.display = "none";
+
+        searchView.style.display = "block";
+        setTimeout(() => searchView.classList.add("active"), 50);
+
+        searchResultsList.innerHTML = "";
+        let found = false;
+
+        Object.keys(menuData).forEach((cat) => {
+          menuData[cat].forEach((item) => {
+            if (item.name.toLowerCase().includes(q)) {
+              found = true;
+              const card = document.createElement("div");
+              card.className = "item-card glass-panel";
+              card.innerHTML = `
+                <div class="item-name">
+                  ${item.name} 
+                  <div style="font-size:0.9rem; color:var(--text-muted); margin-top:5px; font-weight: 600;">${cat}</div>
+                </div>
+                <div class="item-price">${item.price} <span>ج.م</span></div>
+              `;
+              searchResultsList.appendChild(card);
+            }
+          });
+        });
+
+        if (!found) {
+          searchResultsList.innerHTML = `<div style="text-align:center; padding:30px; font-weight:800; font-size: 1.2rem; color:var(--text-muted);">لا توجد نتائج مطابقة 🔍</div>`;
+        }
+      }
+
+      // Initialize
+      initApp();
+    </script>
+  </body>
+</html>
