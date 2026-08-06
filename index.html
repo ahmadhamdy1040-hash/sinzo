@@ -14,17 +14,17 @@
     <link
       rel="preload"
       as="style"
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Tajawal:wght@400;500;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Tajawal:wght@500;700;800;900&display=swap"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Tajawal:wght@400;500;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Tajawal:wght@500;700;800;900&display=swap"
       rel="stylesheet"
       media="print"
       onload="this.media='all'"
     />
     <noscript>
       <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Tajawal:wght@400;500;700;800;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Tajawal:wght@500;700;800;900&display=swap"
         rel="stylesheet"
       />
     </noscript>
@@ -39,8 +39,8 @@
         /* ULTRA Glassmorphism Variables */
         --glass-bg: linear-gradient(
           135deg,
-          rgba(255, 255, 255, 0.7),
-          rgba(255, 255, 255, 0.2)
+          rgba(255, 255, 255, 0.92),
+          rgba(255, 255, 255, 0.72)
         );
         --glass-border-top: rgba(255, 255, 255, 1);
         --glass-border-right: rgba(255, 255, 255, 0.3);
@@ -81,30 +81,28 @@
       .blob {
         position: absolute;
         border-radius: 50%;
-        filter: blur(55px);
-        opacity: 0.5;
-        will-change: transform;
+        opacity: 0.6;
         animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
       }
       .blob-1 {
-        width: 350px;
-        height: 350px;
-        background: #fad390;
+        width: 450px;
+        height: 450px;
+        background: radial-gradient(circle, #fad390 0%, rgba(250, 211, 144, 0) 70%);
         top: -50px;
         right: -50px;
       }
       .blob-2 {
-        width: 400px;
-        height: 400px;
-        background: #f8c291;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, #f8c291 0%, rgba(248, 194, 145, 0) 70%);
         bottom: -100px;
         left: -100px;
         animation-delay: -5s;
       }
       .blob-3 {
-        width: 300px;
-        height: 300px;
-        background: #eccc68;
+        width: 380px;
+        height: 380px;
+        background: radial-gradient(circle, #eccc68 0%, rgba(236, 204, 104, 0) 70%);
         top: 40%;
         left: 60%;
         animation-delay: -10s;
@@ -174,6 +172,7 @@
 
       .hero h1 {
         font-family: "Playfair Display", serif;
+        font-weight: 900;
         font-size: 2.8rem; /* تم التكبير */
         letter-spacing: 2px;
         background: linear-gradient(
@@ -245,8 +244,6 @@
       /* ---------- GLASS BASE CLASSES ---------- */
       .glass-panel {
         background: var(--glass-bg);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
         border-radius: 24px;
         border: none;
         border-top: 1.5px solid var(--glass-border-top);
@@ -590,7 +587,7 @@
           { name: "شيشة ملوكي", price: "200" },
           { name: "شيشة مكس 4 أطعمة", price: "175" },
           { name: "شيشة سينزو", price: "150" },
-          { name: "حجر غيار فواكه", price: "120" },
+          { name: "حجر غيارر فواكه", price: "120" },
           { name: "شيشة اسكندراني", price: "35" },
           { name: "شيشة معسل", price: "20" },
           { name: "ليّ طبي", price: "35" },
