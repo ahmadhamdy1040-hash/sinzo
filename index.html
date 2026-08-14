@@ -2,22 +2,13 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Sinzo Café — Menu</title>
     
-    <!-- تحسين سرعة الاتصال بسيرفر الخطوط -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    
-    <!-- تحميل الخطوط مع display=swap للعرض الفوري -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Tajawal:wght@500;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet" />
     
     <style>
       :root {
@@ -26,13 +17,10 @@
         --bg-color: #fcf9f2;
         --text-main: #3e2723;
         --text-muted: #795548;
-
-        /* Ultra-fast Glassmorphism Variables */
         --glass-bg: rgba(255, 255, 255, 0.75);
         --glass-border-top: rgba(255, 255, 255, 0.9);
         --glass-border-right: rgba(255, 255, 255, 0.3);
         --glass-shadow: 0 8px 25px rgba(62, 39, 35, 0.06);
-        --glass-inner: inset 0 2px 6px rgba(255, 255, 255, 0.6);
       }
 
       * {
@@ -50,128 +38,99 @@
         line-height: 1.6;
         min-height: 100vh;
         overflow-x: hidden;
-        position: relative;
       }
 
-      /* ---------- OPTIMIZED LIGHT BACKGROUND ---------- */
+      /* خلفية خفيفة جداً بدون أي استهلاك للبطارية أو المعالج */
       .bg-animation {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
+        inset: 0;
         z-index: -1;
-        overflow: hidden;
         background: #fcf9f2;
         contain: strict;
       }
       
-      /* استخدام Radial Gradient بدلاً من Filter Blur لسرعة خرافية */
       .blob {
         position: absolute;
         border-radius: 50%;
-        opacity: 0.6;
+        opacity: 0.5;
         will-change: transform;
-        animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        animation: float 20s infinite alternate linear;
       }
       .blob-1 {
-        width: 350px;
-        height: 350px;
+        width: 300px;
+        height: 300px;
         background: radial-gradient(circle, #fad390 0%, rgba(250, 211, 144, 0) 70%);
         top: -50px;
         right: -50px;
       }
       .blob-2 {
-        width: 400px;
-        height: 400px;
+        width: 350px;
+        height: 350px;
         background: radial-gradient(circle, #f8c291 0%, rgba(248, 194, 145, 0) 70%);
         bottom: -100px;
         left: -100px;
-        animation-delay: -5s;
-      }
-      .blob-3 {
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, #eccc68 0%, rgba(236, 204, 104, 0) 70%);
-        top: 40%;
-        left: 60%;
-        animation-delay: -10s;
       }
 
       @keyframes float {
-        0% { transform: translate3d(0, 0, 0) scale(1); }
-        50% { transform: translate3d(-30px, 40px, 0) scale(1.05); }
-        100% { transform: translate3d(40px, -30px, 0) scale(0.95); }
+        0% { transform: translate3d(0, 0, 0); }
+        100% { transform: translate3d(30px, -30px, 0); }
       }
 
-      /* ---------- HEADER ---------- */
       .hero {
-        padding: 35px 20px 20px;
+        padding: 30px 20px 15px;
         text-align: center;
-        position: relative;
-        z-index: 10;
       }
 
       .hero-logo {
-        width: 80px;
-        height: 80px;
-        margin: 0 auto 12px;
+        width: 75px;
+        height: 75px;
+        margin: 0 auto 10px;
         border-radius: 50%;
         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         display: flex;
         align-items: center;
         justify-content: center;
         font-family: "Playfair Display", serif;
-        font-size: 40px;
+        font-size: 38px;
         font-weight: 900;
         color: #fff;
-        box-shadow: 0 8px 20px rgba(211, 84, 0, 0.25);
-        position: relative;
+        box-shadow: 0 6px 18px rgba(211, 84, 0, 0.2);
       }
 
       .hero h1 {
         font-family: "Playfair Display", serif;
-        font-size: 2.5rem;
-        letter-spacing: 2px;
+        font-size: 2.4rem;
         color: var(--primary-color);
         margin-bottom: 2px;
       }
 
       .hero h2 {
-        font-size: 1.3rem;
+        font-size: 1.25rem;
         font-weight: 800;
         color: var(--text-muted);
       }
 
-      /* ---------- APP CONTAINER & VIEWS ---------- */
       .app-container {
         max-width: 800px;
         margin: 0 auto;
         padding: 0 16px 30px;
-        position: relative;
-        z-index: 10;
       }
 
       .view {
         display: none;
-        opacity: 0;
-        transform: translate3d(0, 10px, 0);
-        transition: opacity 0.25s ease, transform 0.25s ease;
       }
 
       .view.active {
         display: block;
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
       }
 
-      /* ---------- SEARCH BAR ---------- */
       .search-container {
-        margin-bottom: 20px;
+        margin-bottom: 18px;
       }
+
       #search-input {
         width: 100%;
-        padding: 16px 20px;
+        padding: 15px 18px;
         font-family: inherit;
         font-size: 1.1rem;
         font-weight: 700;
@@ -179,18 +138,12 @@
         outline: none;
         border: none;
       }
-      #search-input::placeholder {
-        color: var(--text-muted);
-        opacity: 0.7;
-        font-weight: 500;
-      }
 
-      /* ---------- GLASS BASE CLASSES ---------- */
       .glass-panel {
         background: var(--glass-bg);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 20px;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: 18px;
         border-top: 1.5px solid var(--glass-border-top);
         border-left: 1.5px solid var(--glass-border-top);
         border-right: 1px solid var(--glass-border-right);
@@ -198,22 +151,23 @@
         box-shadow: var(--glass-shadow);
       }
 
-      /* ---------- CATEGORIES GRID (HOME VIEW) ---------- */
       .categories-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
         gap: 12px;
       }
 
       .category-box {
-        padding: 20px 12px;
+        padding: 18px 10px;
         text-align: center;
         cursor: pointer;
-        transition: transform 0.2s ease, background 0.2s ease;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
+        /* خاصية سرعة الرسم الأقصى */
+        content-visibility: auto;
+        contain-intrinsic-size: 100px;
       }
 
       .category-box:active {
@@ -221,25 +175,21 @@
       }
 
       .cat-icon {
-        font-size: 38px;
+        font-size: 36px;
         line-height: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
       }
 
       .cat-name {
         font-weight: 800;
-        font-size: 1.15rem;
+        font-size: 1.1rem;
         color: var(--text-main);
       }
 
-      /* ---------- SINGLE CATEGORY VIEW ---------- */
       .sticky-header {
         position: sticky;
         top: 10px;
         padding: 12px 16px;
-        margin-bottom: 20px;
+        margin-bottom: 16px;
         z-index: 100;
         display: flex;
         align-items: center;
@@ -254,16 +204,16 @@
         border-radius: 20px;
         font-family: inherit;
         font-weight: 800;
-        font-size: 1rem;
+        font-size: 0.95rem;
         cursor: pointer;
         display: flex;
         align-items: center;
         gap: 6px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       }
 
       .current-cat-title {
-        font-size: 1.2rem;
+        font-size: 1.15rem;
         font-weight: 800;
         color: var(--text-main);
         display: flex;
@@ -277,7 +227,6 @@
         gap: 10px;
       }
 
-      /* ---------- ITEM CARDS ---------- */
       .item-card {
         border-radius: 16px;
         padding: 14px 18px;
@@ -285,10 +234,13 @@
         justify-content: space-between;
         align-items: center;
         gap: 12px;
+        /* تسرع سكرول القائمة وسرعة فتح الفئة */
+        content-visibility: auto;
+        contain-intrinsic-size: 50px;
       }
 
       .item-name {
-        font-size: 1.15rem;
+        font-size: 1.1rem;
         font-weight: 800;
         color: var(--text-main);
       }
@@ -296,34 +248,33 @@
       .item-price {
         background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
         color: #fff;
-        padding: 6px 14px;
+        padding: 5px 14px;
         border-radius: 20px;
         font-weight: 800;
-        font-size: 1.1rem;
+        font-size: 1.05rem;
         white-space: nowrap;
       }
       .item-price span {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         margin-right: 2px;
       }
 
-      /* ---------- FOOTER ---------- */
       footer {
         text-align: center;
-        padding: 25px 20px;
-        margin-top: 20px;
+        padding: 20px;
+        margin-top: 15px;
       }
       footer p {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         color: var(--text-muted);
         font-weight: 700;
       }
       footer .brand {
         font-family: "Playfair Display", serif;
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         color: var(--primary-color);
         font-weight: 900;
-        margin-bottom: 4px;
+        margin-bottom: 2px;
       }
     </style>
   </head>
@@ -331,7 +282,6 @@
     <div class="bg-animation">
       <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
-      <div class="blob blob-3"></div>
     </div>
 
     <header class="hero">
@@ -341,7 +291,6 @@
     </header>
 
     <div class="app-container">
-      <!-- Search Bar -->
       <div id="search-wrapper" class="search-container">
         <input
           type="text"
@@ -352,16 +301,13 @@
         />
       </div>
 
-      <!-- Views -->
       <div id="home-view" class="view active">
         <div class="categories-grid" id="categories-grid"></div>
       </div>
 
       <div id="category-view" class="view">
         <div class="sticky-header glass-panel">
-          <button class="back-btn" onclick="goHome()">
-            <span>&rarr;</span> رجوع
-          </button>
+          <button class="back-btn" onclick="goHome()">&rarr; رجوع</button>
           <div class="current-cat-title" id="current-cat-title"></div>
         </div>
         <div class="items-list" id="items-list"></div>
@@ -443,7 +389,7 @@
           { name: "كب كيك", price: "30" },
           { name: "انجلش كيك", price: "20" },
           { name: "ميني بان كيك", price: "20" },
-          { name: "قطعه سابليه - كوكيز - باتيه", price: "20" },
+          { name: "قطعة سابليه - كوكيز - باتيه", price: "20" },
         ],
         "شيشة (SHISH)": [
           { name: "شيشة ملوكي", price: "200" },
@@ -561,12 +507,9 @@
       function openCategory(catName) {
         searchWrapper.style.display = "none";
         homeView.style.display = "none";
-        homeView.classList.remove("active");
-
         categoryView.style.display = "block";
-        requestAnimationFrame(() => categoryView.classList.add("active"));
 
-        window.scrollTo({ top: 0 });
+        window.scrollTo(0, 0);
         currentCatTitle.innerHTML = `${categoryIcons[catName] || "✦"} <span>${catName}</span>`;
         
         const fragment = document.createDocumentFragment();
@@ -584,37 +527,25 @@
       }
 
       function goHome() {
-        categoryView.classList.remove("active");
-        searchView.classList.remove("active");
-
         categoryView.style.display = "none";
         searchView.style.display = "none";
-
         searchWrapper.style.display = "block";
         searchInput.value = "";
-
         homeView.style.display = "block";
-        requestAnimationFrame(() => homeView.classList.add("active"));
       }
 
       function handleSearch(query) {
         const q = query.trim().toLowerCase();
 
-        if (q === "") {
-          searchView.classList.remove("active");
+        if (!q) {
           searchView.style.display = "none";
           homeView.style.display = "block";
-          requestAnimationFrame(() => homeView.classList.add("active"));
           return;
         }
 
-        homeView.classList.remove("active");
-        categoryView.classList.remove("active");
         homeView.style.display = "none";
         categoryView.style.display = "none";
-
         searchView.style.display = "block";
-        requestAnimationFrame(() => searchView.classList.add("active"));
 
         const fragment = document.createDocumentFragment();
         let found = false;
@@ -628,7 +559,7 @@
               card.innerHTML = `
                 <div class="item-name">
                   ${item.name} 
-                  <div style="font-size:0.85rem; color:var(--text-muted); margin-top:2px; font-weight:600;">${cat}</div>
+                  <div style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">${cat}</div>
                 </div>
                 <div class="item-price">${item.price} <span>ج.م</span></div>
               `;
@@ -641,7 +572,7 @@
         if (found) {
           searchResultsList.appendChild(fragment);
         } else {
-          searchResultsList.innerHTML = `<div style="text-align:center; padding:30px; font-weight:800; font-size:1.1rem; color:var(--text-muted);">لا توجد نتائج مطابقة 🔍</div>`;
+          searchResultsList.innerHTML = `<div style="text-align:center; padding:25px; font-weight:800; color:var(--text-muted);">لا توجد نتائج مطابقة 🔍</div>`;
         }
       }
 
